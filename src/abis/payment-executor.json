@@ -1,0 +1,195 @@
+{
+  "entrys": [
+    {
+      "inputs": [
+        {
+          "name": "_usdtToken",
+          "type": "address"
+        },
+        {
+          "name": "partner0",
+          "type": "address"
+        },
+        {
+          "name": "partner1",
+          "type": "address"
+        },
+        {
+          "name": "share0",
+          "type": "uint16"
+        },
+        {
+          "name": "share1",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "Nonpayable",
+      "type": "Constructor"
+    },
+    {
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "partner",
+          "type": "address"
+        },
+        {
+          "name": "referenceId",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PartnerOwedRecorded",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "partner",
+          "type": "address"
+        },
+        {
+          "name": "referenceId",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PartnerPaid",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "payer",
+          "type": "address"
+        },
+        {
+          "name": "referenceId",
+          "type": "uint256"
+        },
+        {
+          "name": "totalAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PaymentExecuted",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "Withdraw",
+      "type": "Event"
+    },
+    {
+      "inputs": [
+        {
+          "name": "referenceId",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "depositAndExecute",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        {
+          "type": "uint256"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "address"
+        }
+      ],
+      "name": "owedToPartner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        {
+          "type": "address"
+        }
+      ],
+      "name": "owner",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        {
+          "name": "partner",
+          "type": "address"
+        },
+        {
+          "name": "share",
+          "type": "uint16"
+        }
+      ],
+      "inputs": [
+        {
+          "type": "uint256"
+        }
+      ],
+      "name": "partnersInfo",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "outputs": [
+        {
+          "type": "address"
+        }
+      ],
+      "name": "usdtToken",
+      "stateMutability": "View",
+      "type": "Function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "withdraw",
+      "stateMutability": "Nonpayable",
+      "type": "Function"
+    }
+  ]
+}
