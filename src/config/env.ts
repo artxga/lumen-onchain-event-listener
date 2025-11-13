@@ -9,4 +9,5 @@ export const config = {
     .split(",")
     .map(Number),
   maxIdlePolls: Number(process.env.MAX_IDLE_POLLS ?? 3),
+  rabbitUrl: process.env.RABBIT_URL!,
 };

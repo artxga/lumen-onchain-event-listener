@@ -21,11 +21,13 @@
   "license": "MIT",
   "packageManager": "pnpm@10.12.1",
   "dependencies": {
+    "amqplib": "^0.10.9",
     "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "tronweb": "^6.1.0"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.8",
     "@types/node": "^24.10.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

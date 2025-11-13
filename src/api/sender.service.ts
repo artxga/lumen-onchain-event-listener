@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config } from "../config/env";
 
+// TODO: Remove
 export async function sendToApi(payload: any): Promise<boolean> {
   try {
     await axios.post(`${config.apiUrl}/payment/pexcon/event`, payload);

@@ -1,11 +1,11 @@
 import { getEventResult } from "./tron.service";
-import { getLastSyncedState } from "../api/state.service";
-import { sendToApi } from "../api/sender.service";
 import { getEventKey } from "../utils/helpers";
-import { config } from "../config/env";
+import { publishEvent } from "../rabbit/rabbit.service";
+import { EventRoutingKeys } from "../utils/enum";
+import { SyncedState } from "./poller";
 
 export type EventConfig = {
-  name: string;
+  name: keyof typeof EventRoutingKeys;
   label: string;
   formatter: (result: any) => Record<string, any>;
 };
@@ -50,36 +50,34 @@ export const events: EventConfig[] = [
 ];
 
 export async function fetchAndProcessEvents(
-  eventConfig: EventConfig
+  eventConfig: EventConfig,
+  state: SyncedState
 ): Promise<number> {
-  const lastState = await getLastSyncedState(eventConfig.name);
-  const result = await getEventResult(eventConfig.name);
+  const result = await getEventResult(
+    eventConfig.name,
+    // state.last_fingerprint,
+    state.last_block_timestamp
+  );
+  // console.log("result =>", result);
   let data = result?.data ?? [];
   if (!data.length) return 0;
 
-  data = data.reverse();
+  // const newEvents = data.filter((e: any) => {
+  //   const b = e.block_number;
+  //   const idx = e.event_index;
+  //   const lb = state.last_block_number;
+  //   const lidx = state.last_event_index;
 
-  const newEvents = lastState
-    ? data.filter((e: any) => {
-        const b = e.block_number;
-        const idx = e.event_index;
-        const lb = lastState.last_block_number;
-        const lidx = lastState.last_event_index;
+  //   if (b < lb) return false;
+  //   if (b === lb) return idx > lidx;
+  //   return true;
+  // });
 
-        if (b < lb) return false;
-        if (b === lb) return idx > lidx;
-        return true;
-      })
-    : data;
+  // if (!newEvents.length) return 0;
 
-  if (!newEvents.length) return 0;
-
-  console.log(
-    `📦 Processing ${newEvents.length} ${eventConfig.name} events...`
-  );
   let processedCount = 0;
 
-  for (const ev of newEvents) {
+  for (const ev of data) {
     const key = getEventKey(ev, eventConfig.name);
     const payload = {
       key,
@@ -92,8 +90,19 @@ export async function fetchAndProcessEvents(
       reference_id: Number(ev.result?.referenceId || 0),
     };
 
-    const sent = await sendToApi(payload);
-    if (sent) processedCount++;
+    try {
+      await publishEvent(eventConfig.name, payload);
+
+      // 🧠 Actualiza estado local (sin DB)
+      state.last_block_number = ev.block_number;
+      state.last_event_index = ev.event_index;
+      state.last_fingerprint = result.meta?.fingerprint || "";
+      state.last_block_timestamp = ev.block_timestamp;
+
+      processedCount++;
+    } catch (error) {
+      console.error(`❌ Error publishing ${key}:`, error);
+    }
   }
 
   return processedCount;

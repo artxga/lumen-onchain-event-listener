@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config } from "../config/env";
 
+// TODO: Remove
 export async function getLastSyncedState(eventName: string) {
   try {
     const res = await axios.get(
