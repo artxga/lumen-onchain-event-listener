@@ -5,7 +5,7 @@ export const config = {
   tronNode: process.env.TRON_FULL_NODE!,
   contractAddress: process.env.PAYMENT_EXECUTOR!,
   apiUrl: process.env.INTERNAL_API_URL!,
-  pollLevels: (process.env.POLL_LEVELS ?? "10000,30000,60000")
+  pollLevels: (process.env.POLL_LEVELS ?? "10000,30000,60000,120000")
     .split(",")
     .map(Number),
   maxIdlePolls: Number(process.env.MAX_IDLE_POLLS ?? 3),

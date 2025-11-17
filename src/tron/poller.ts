@@ -20,7 +20,7 @@ function getLocalState(eventName: string): SyncedState {
       last_block_number: 0,
       last_event_index: 0,
       last_fingerprint: "",
-      last_block_timestamp: 0,
+      last_block_timestamp: Date.now() - 24 * 60 * 60 * 1000,
     };
   }
 
