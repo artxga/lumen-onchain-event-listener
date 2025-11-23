@@ -1,4 +1,4 @@
-name: Deploy Polygon Listener
+name: Deploy Onchain Listener
 
 on:
   workflow_dispatch:
