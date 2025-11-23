@@ -1,22 +1,26 @@
-# ---- 1. Etapa de compilación ----
-FROM node:24-alpine AS builder
+FROM node:23-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY tsconfig.json ./
-COPY src ./src
-RUN npm run build
-
-# ---- 2. Etapa de ejecución ----
-FROM node:24-alpine
-
-WORKDIR /app
-COPY --from=builder /app/package*.json ./
-RUN npm ci --omit=dev
-COPY --from=builder /app/dist ./dist
-
-# Variables de entorno opcionales
+# Variables de entorno
 ENV NODE_ENV=production
 
-CMD ["node", "dist/index.js"]
+# Crear directorio de la app
+WORKDIR /app
+
+# Copiar archivos de dependencias
+COPY package.json pnpm-lock.yaml* ./
+
+# Instalar pnpm y dependencias
+RUN npm install -g pnpm pm2
+RUN pnpm install --frozen-lockfile
+
+# Copiar el resto del proyecto
+COPY . .
+
+# Compilar TypeScript
+RUN pnpm exec tsc
+
+# Exponer puerto (opcional, si necesitas)
+# EXPOSE 3000
+
+# Comando para levantar listener con PM2-runtime
+CMD ["pm2-runtime", "dist/listener.js", "--name", "polygon-listener"]

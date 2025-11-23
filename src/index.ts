@@ -1,4 +1,3 @@
-import { pollEvents } from "./tron/poller";
+import { listener } from "./listener";
 
-console.log("👂 Listening for events on Tron...");
-pollEvents();
+listener();
