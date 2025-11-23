@@ -1,26 +1,25 @@
-FROM node:23-alpine
+FROM node:24-alpine
 
 # Variables de entorno
 ENV NODE_ENV=production
 
-# Crear directorio de la app
+# Crear directorio
 WORKDIR /app
 
 # Copiar archivos de dependencias
 COPY package.json pnpm-lock.yaml* ./
 
-# Instalar pnpm y dependencias
+# Instalar pnpm y pm2
 RUN npm install -g pnpm pm2
+
+# Instalar dependencias
 RUN pnpm install --frozen-lockfile
 
-# Copiar el resto del proyecto
+# Copiar el resto del proyecto (incluye src, tsconfig, env, etc)
 COPY . .
 
 # Compilar TypeScript
 RUN pnpm exec tsc
 
-# Exponer puerto (opcional, si necesitas)
-# EXPOSE 3000
-
-# Comando para levantar listener con PM2-runtime
-CMD ["pm2-runtime", "dist/listener.js", "--name", "polygon-listener"]
+# Comando PM2 runtime
+CMD ["pm2-runtime", "start", "dist/listener.js", "--name", "polygon-listener"]

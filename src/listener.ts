@@ -2,18 +2,20 @@ import { ethers, Log } from "ethers";
 import abi from "./abis/payment-executor.json";
 import { config } from "./config/env";
 import { getEventKey } from "./utils/helpers";
+import { publishEvent } from "./rabbit/rabbit.service";
+import { EventRoutingKeys } from "./utils/enum";
 
 export function listener() {
-  let provider: ethers.JsonRpcProvider;
+  let provider: ethers.WebSocketProvider;
   let contract: ethers.Contract;
 
   function startListener() {
     try {
-      provider = new ethers.JsonRpcProvider(config.polygonNode, "matic-amoy");
+      provider = new ethers.WebSocketProvider(config.polygonWs, "matic-amoy");
       contract = new ethers.Contract(config.contractAddress, abi, provider);
 
       const handleEvent = (
-        eventName: string,
+        eventName: keyof typeof EventRoutingKeys,
         dataObj: Record<string, any>,
         event: any
       ) => {
@@ -43,6 +45,8 @@ export function listener() {
             ),
           };
           console.log(`${eventName}:`, payload);
+
+          publishEvent(eventName, payload);
         } catch (error) {
           console.error(`Error processing ${eventName}:`, error);
         }
