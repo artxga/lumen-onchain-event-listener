@@ -37,19 +37,24 @@ export function listener() {
 
     contract = new ethers.Contract(config.contractAddress, abi, provider);
 
-    function handleEvent(
+    async function handleEvent(
       eventName: keyof typeof EventRoutingKeys,
       dataObj: Record<string, any>,
       event: any
     ) {
       try {
         const { blockNumber, transactionHash, index, removed }: Log = event.log;
+        const block = await provider.getBlock(blockNumber);
+        const blockTime = block?.timestamp
+          ? new Date(block.timestamp * 1000).toISOString()
+          : null;
 
         const payload = {
           key: getEventKey(event.log, eventName),
           event_name: eventName,
           transaction_hash: transactionHash,
           block_number: blockNumber,
+          block_time: blockTime,
           event_index: index,
           removed,
           data: JSON.stringify(
