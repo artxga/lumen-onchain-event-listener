@@ -54,7 +54,7 @@ export function listener() {
         const payload = {
           key: getEventKey(event.log, eventName),
           event_name: eventName,
-          transactionHash,
+          transaction_hash: transactionHash,
           block_number: blockNumber,
           transaction_index: transactionIndex,
           log_index: index,
