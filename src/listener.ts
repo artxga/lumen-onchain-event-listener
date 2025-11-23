@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, Log } from "ethers";
 import abi from "./abis/payment-executor.json";
 import { config } from "./config/env";
 import { getEventKey } from "./utils/helpers";
@@ -43,21 +43,14 @@ export function listener() {
       event: any
     ) {
       try {
-        const {
-          blockNumber,
-          transactionHash,
-          transactionIndex,
-          index,
-          removed,
-        } = event.log;
+        const { blockNumber, transactionHash, index, removed }: Log = event.log;
 
         const payload = {
           key: getEventKey(event.log, eventName),
           event_name: eventName,
           transaction_hash: transactionHash,
           block_number: blockNumber,
-          transaction_index: transactionIndex,
-          log_index: index,
+          event_index: index,
           removed,
           data: JSON.stringify(
             Object.fromEntries(
