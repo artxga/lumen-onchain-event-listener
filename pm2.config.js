@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "lumen-listener",
+      name: "onchain-event-listener",
       script: "dist/index.js",
       watch: false,
       instances: 1,

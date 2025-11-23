@@ -22,4 +22,4 @@ COPY . .
 RUN pnpm exec tsc
 
 # Comando PM2 runtime
-CMD ["pm2-runtime", "start", "dist/listener.js", "--name", "polygon-listener"]
+CMD ["pm2-runtime", "start", "dist/index.js", "--name", "onchain-event-listener"]
