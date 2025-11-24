@@ -50,6 +50,7 @@ export function listener() {
           : null;
 
         const payload = {
+          reference_id: dataObj.referenceId,
           key: getEventKey(event.log, eventName),
           event_name: eventName,
           transaction_hash: transactionHash,
