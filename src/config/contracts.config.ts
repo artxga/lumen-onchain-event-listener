@@ -48,7 +48,7 @@ export const CONTRACTS_TO_LISTEN: ContractConfig[] = [
       },
       {
         eventName: "TokensSent",
-        argNames: ["recipient", "amount", "success"],
+        argNames: ["recipient", "referenceId", "amount", "success"],
       },
       {
         eventName: "OwnershipTransferred",
