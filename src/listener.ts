@@ -58,7 +58,7 @@ function startContractListener(contractConfig: ContractConfig) {
 
           const payload = {
             contract_address: contractConfig.address,
-            reference_id: Number(serializableData.referenceId || 0),
+            reference_id: Number(serializableData.referenceId) || null,
             key: getEventKey(event.log, eventName),
             event_name: eventName,
             transaction_hash: transactionHash,
