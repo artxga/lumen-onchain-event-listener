@@ -55,6 +55,8 @@ function startContractListener(contractConfig: ContractConfig) {
               v?.toString ? v.toString() : v,
             ])
           );
+          console.log("d");
+          console.log(serializableData);
 
           const payload = {
             contract_address: contractConfig.address,
