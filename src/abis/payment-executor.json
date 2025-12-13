@@ -17,6 +17,16 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "partner2",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "partner3",
+        "type": "address"
+      },
+      {
         "internalType": "uint16",
         "name": "share0",
         "type": "uint16"
@@ -24,6 +34,16 @@
       {
         "internalType": "uint16",
         "name": "share1",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "share2",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "share3",
         "type": "uint16"
       }
     ],
